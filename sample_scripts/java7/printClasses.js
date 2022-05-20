@@ -2,5 +2,5 @@
 importPackage(com.change_vision.jude.api.inf.model);
 classes = astah.findElements(IClass);
 for(var i in classes) {
-    println(classes[i].getName());
+    print(classes[i].getName());
 }

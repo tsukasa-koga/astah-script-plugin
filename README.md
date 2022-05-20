@@ -18,6 +18,12 @@ Description
 This Plugin enables you to access Astah by Script languages.
 You are able to edit and run with ECMAScript(Javascript).
 
+Requirement
+------------
+This plugin requires the following JVM:
+
+* GraalVM (https://www.graalvm.org)
+
 How to install
 ------------
 1. Deploy the jar file you downloaded from [Astah Script Plugin](http://astah.change-vision.com/plugins/astah_script_plugin/1.0.4.html), in the **"plugins"** folder.

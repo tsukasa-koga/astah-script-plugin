@@ -3,6 +3,7 @@ package com.change_vision.astah.extension.plugin.script.command;
 import java.awt.Cursor;
 import java.util.Date;
 
+import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -11,6 +12,7 @@ import javax.swing.text.BadLocationException;
 import com.change_vision.astah.extension.plugin.script.ConfigManager;
 import com.change_vision.astah.extension.plugin.script.ScriptViewContext;
 import com.change_vision.astah.extension.plugin.script.util.Messages;
+
 import com.change_vision.jude.api.inf.editor.TransactionManager;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
@@ -39,6 +41,7 @@ public class RunCommand {
     }
 
     public static void evalScript(String scriptKind, String scriptString, ScriptViewContext context) {
+
         System.out.println(SEPARATOR_STRING + new Date().toString());
         ProjectAccessor projectAccessor = null;
         try {
@@ -47,12 +50,18 @@ public class RunCommand {
             // e.printStackTrace();
             // ignore to test
         }
-        ScriptEngine scEngine = context.scriptEngineManager.getEngineByName(scriptKind);
+
+        ScriptEngine scEngine = context.scriptEngineManager.getEngineByName("graal.js"); //ScriptEngineをgraal.jsに固定
+
+        Bindings bindings = scEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        bindings.put("polyglot.js.nashorn-compat", true); //ScriptEngineに権限を与える
+
         scEngine.put("projectAccessor", projectAccessor);
         scEngine.put("astah", projectAccessor);
         scEngine.put("scriptWindow", context.dialog);
         scEngine.put("astahWindow", context.dialog.getParent());
         try {
+            scEngine.eval("load('nashorn:mozilla_compat.js');"); //importPackageできるように
             scEngine.eval(scriptString);
         } catch (ScriptException ex) {
             try {
