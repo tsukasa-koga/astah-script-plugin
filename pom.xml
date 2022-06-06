@@ -6,7 +6,7 @@
 		<bundle.namespace>com.change_vision.astah.extension.plugin.script</bundle.namespace>
 		<plugin.install>true</plugin.install>
 		<astah.version>7.2</astah.version>
-		<astah.edition>pro,uml</astah.edition>
+		<astah.edition>all</astah.edition>
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.change_vision.astah.extension.plugin</groupId>
@@ -16,6 +16,15 @@
 	<name>%bundle.name</name>
 	<description>%bundle.description</description>
 	<pluginRepositories>
+
+		<pluginRepository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+
 		<pluginRepository>
 			<id>local_astah_repository</id>
 			<name>Local Astah* Plugin Repository</name>
@@ -28,8 +37,18 @@
 				<updatePolicy>never</updatePolicy>
 			</releases>
 		</pluginRepository>
+
 	</pluginRepositories>
 	<repositories>
+
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+
 		<repository>
 			<id>java.net</id>
 			<name>java.net Maven Repository</name>
@@ -40,10 +59,12 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+
 		<repository>
 			<id>uk-central</id>
 			<url>http://uk.maven.org/maven2/</url>
 		</repository>
+
 	</repositories>
 	<reporting>
 		<plugins>
@@ -112,7 +133,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.8</version>
 				<configuration>
-					<source>1.6</source>
+					<source>1.8</source>
 					<encoding>UTF-8</encoding>
 					<docencoding>UTF-8</docencoding>
 					<charset>UTF-8</charset>
@@ -123,6 +144,7 @@
 					</links>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</reporting>
 	<build>
@@ -161,7 +183,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.1</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<source>1.8</source>
@@ -179,12 +201,12 @@
 			<plugin>
 				<groupId>com.change_vision.astah</groupId>
 				<artifactId>astah-maven-plugin</artifactId>
-				<version>0.9.3</version>
+				<version>1.0.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.6</version>
+				<version>3.5.1</version>
 				<extensions>true</extensions>
 				<executions>
 					<execution>
@@ -198,8 +220,9 @@
 				<!-- | the following instructions build a simple set of public/private 
 					classes into an OSGi bundle -->
 				<configuration>
+					<unpackBundle>true</unpackBundle>
 					<instructions>
-						<unpackBundle>true</unpackBundle>
+						<_noee>true</_noee>
 						<Bundle-SymbolicName>${bundle.symbolicName}; singleton:=true</Bundle-SymbolicName>
 						<Bundle-DocURL>%bundle.docURL</Bundle-DocURL>
 						<Bundle-Version>${project.version}</Bundle-Version>
@@ -213,6 +236,7 @@
 						<!-- | each module can override these defaults in their osgi.bnd file -->
 						<_include>-osgi.bnd</_include>
 						<Embed-Dependency>*;scope=compile|runtime;type=!pom</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -252,7 +276,39 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>org.openjdk.nashorn</groupId>
+			<artifactId>nashorn-core</artifactId>
+			<version>15.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>7.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-commons</artifactId>
+			<version>7.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-tree</artifactId>
+			<version>7.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-util</artifactId>
+			<version>7.3.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.change_vision.astah</groupId>
 			<artifactId>astah-api</artifactId>
@@ -260,33 +316,39 @@
 			<scope>system</scope>
 			<systemPath>${astahPath}/astah-api.jar</systemPath>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
 			<version>2.0.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
 			<version>2.0.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.1</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.compendium</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.1</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>3.8.2</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 </project>

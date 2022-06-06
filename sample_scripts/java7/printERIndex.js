@@ -1,6 +1,6 @@
 //This script writes out all the indexs of ER Entities
 //in the current Astah project.
-importPackage(com.change_vision.jude.api.inf.model);
+JavaImporter(com.change_vision.jude.api.inf.model);
 var entities = astah.findElements(IEREntity);
 for(var i in entities) {
     var entity = entities[i];

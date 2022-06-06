@@ -1,5 +1,6 @@
-load('nashorn:mozilla_compat.js');
+with ( new JavaImporter(com.change_vision.jude.api.inf.model) ) {
 
-importPackage(com.change_vision.jude.api.inf.model);
-classes = astah.findElements(IClass);
+classes = astah.findElements(IClass.class);
 print('Class # = ' + classes.length);
+
+}

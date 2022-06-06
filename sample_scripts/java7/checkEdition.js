@@ -1,11 +1,10 @@
-//This script shows how to check the edition of Astah.
-importPackage(com.change_vision.jude.api.inf.editor);
+JavaImporter(com.change_vision.jude.api.inf.editor);
 
 run();
 
 function run() {
     if (!isSupportedAstah()) {
-        println('This edition is not supported');
+        print('This edition is not supported');
     }
 
     //Use a special API here.
@@ -17,7 +16,7 @@ function run() {
 
 function isSupportedAstah() {
     var edition = astah.getAstahEdition();
-    println('Your edition is ' + edition);
+    print('Your edition is ' + edition);
     if (edition == 'professional' || edition == 'UML') {
         return true;
     } else {

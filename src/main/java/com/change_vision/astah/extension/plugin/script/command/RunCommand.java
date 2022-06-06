@@ -1,12 +1,14 @@
 package com.change_vision.astah.extension.plugin.script.command;
 
 import java.awt.Cursor;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
+import javax.script.*;
 import javax.swing.text.BadLocationException;
 
 import com.change_vision.astah.extension.plugin.script.ConfigManager;
@@ -16,6 +18,9 @@ import com.change_vision.astah.extension.plugin.script.util.Messages;
 import com.change_vision.jude.api.inf.editor.TransactionManager;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
+
+import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 public class RunCommand {
     private static final String SEPARATOR_STRING = "\n============ ";
@@ -42,7 +47,6 @@ public class RunCommand {
 
     public static void evalScript(String scriptKind, String scriptString, ScriptViewContext context) {
 
-        System.out.println(SEPARATOR_STRING + new Date().toString());
         ProjectAccessor projectAccessor = null;
         try {
             projectAccessor = ProjectAccessorFactory.getProjectAccessor();
@@ -51,17 +55,16 @@ public class RunCommand {
             // ignore to test
         }
 
-        ScriptEngine scEngine = context.scriptEngineManager.getEngineByName("graal.js"); //ScriptEngineをgraal.jsに固定
-
-        Bindings bindings = scEngine.getBindings(ScriptContext.ENGINE_SCOPE);
-        bindings.put("polyglot.js.nashorn-compat", true); //ScriptEngineに権限を与える
+        ClassLoader classLoader = RunCommand.class.getClassLoader();
+        ScriptEngineManager sem = new ScriptEngineManager(classLoader);
+        ScriptEngine scEngine = sem.getEngineByName(scriptKind);
 
         scEngine.put("projectAccessor", projectAccessor);
         scEngine.put("astah", projectAccessor);
         scEngine.put("scriptWindow", context.dialog);
         scEngine.put("astahWindow", context.dialog.getParent());
+
         try {
-            scEngine.eval("load('nashorn:mozilla_compat.js');"); //importPackageできるように
             scEngine.eval(scriptString);
         } catch (ScriptException ex) {
             try {
@@ -91,6 +94,7 @@ public class RunCommand {
             System.err.println(errorMessage);
             printMigrationHint(errorMessage);
         }
+        // java.lang.NullPointerException: "org.openjdk.nashorn.api.scripting.NashornScriptEngine.getBindings(int)" is null によって実行できない
         scEngine.getBindings(ScriptContext.GLOBAL_SCOPE).clear();
         scEngine.getBindings(ScriptContext.ENGINE_SCOPE).clear();
     }

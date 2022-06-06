@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 
 import javax.script.ScriptEngineFactory;
@@ -74,6 +75,7 @@ public class ScriptView {
     }
 
     public void show(IWindow window) throws ClassNotFoundException, ProjectNotFoundException {
+
         if (context.dialog == null) {
             createAndShowScriptDialog(window);
         } else {

@@ -9,7 +9,7 @@ function run() {
     var attributes = getSelectedAttributesInProjectView();
 
     if (attributes.length === 0) {
-        println('Please select attributes that you want to add setter/getter in StructureTree');
+        print('Please select attributes that you want to add setter/getter in StructureTree');
         return;
     }
 
@@ -28,7 +28,7 @@ function getSelectedAttributesInProjectView() {
         var entity = selectedEntities[i];
         if (entity instanceof IAttribute) {
             attributes.push(entity);
-            println('Target attribute: ' + entity.getName());
+            print('Target attribute: ' + entity.getName());
         }
     }
 
@@ -42,10 +42,10 @@ function addSetterGetter(attribute) {
     //setter
     var setter = editor.createOperation(clazz, getSetterName(attributeName), 'void');
     editor.createParameter(setter, attribute.getName(), attribute.getType());
-    println('Added Setter Operation: ' + setter.getName());
+    print('Added Setter Operation: ' + setter.getName());
     //getter
     var getter = editor.createOperation(clazz, getGetterName(attributeName), attribute.getType());
-    println('Added Getter Operation: ' + getter.getName());
+    print('Added Getter Operation: ' + getter.getName());
 }
 
 function getSetterName(attributeName) {

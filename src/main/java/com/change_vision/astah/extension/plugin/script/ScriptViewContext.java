@@ -30,7 +30,7 @@ public class ScriptViewContext {
     public boolean isModified = false;
     public HistoryManager historyManager;
     public FileModificationChecker fileModificationChecker;
-    public ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+    public ScriptEngineManager scriptEngineManager = new ScriptEngineManager( getClass().getClassLoader() );
     public String encoding = "UTF-8";
     
     public void setIsModified(boolean isModified) {

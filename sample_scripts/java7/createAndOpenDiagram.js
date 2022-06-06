@@ -1,6 +1,8 @@
 //Only for Astah UML and Professional.
 //This script creates and opens new class diagram.
+load("nashorn:mozilla_compat.js");
 importPackage(com.change_vision.jude.api.inf.editor);
+println=print;
 
 var newDiagramName = 'New Class Diagram';
 

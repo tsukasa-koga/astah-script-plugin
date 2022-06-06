@@ -20,9 +20,6 @@ You are able to edit and run with ECMAScript(Javascript).
 
 Requirement
 ------------
-This plugin requires the following JVM:
-
-* GraalVM (https://www.graalvm.org)
 
 How to install
 ------------
